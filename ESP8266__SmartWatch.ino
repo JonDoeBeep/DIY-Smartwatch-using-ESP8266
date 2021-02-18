@@ -1,7 +1,4 @@
 //  ESP8266_SmartWatch.ino
-//  Written by Shyam Ravi, the Technowright 
-//  Visit my Youtube channel at https://www.youtube.com/thetechnowright 
-  
 
 //  Libraries needed:
 //  Time.h & TimeLib.h:  https://github.com/PaulStoffregen/Time
@@ -71,17 +68,17 @@ NTPClient timeClient(ntpUDP, NTP_ADDRESS, NTP_OFFSET, NTP_INTERVAL);
 // Create a display object
 SSD1306  display(0x3C, 4, 5); //0x3d for the Adafruit 1.3" OLED, 0x3C being the usual address of the OLED
 
-const char* ssid = "XXXXX";   // insert your own ssid
-const char* password = "XXXXXXXXXXX";              // and password
+const char* ssid = "new5";   // insert your own ssid
+const char* password = "Rickson83";              // and password
 String date;
 String t;
 String tempC;
-const char * days[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"} ;
-const char * months[] = {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"} ;
-const char * ampm[] = {"AM", "PM"} ;
+const char * days[] = {"Day no.1", "Monoday", "Taco", "WENSDAY", "NotTaco", "Friday", "Mikeday"} ;
+const char * months[] = {"Cold", "Eh.", "Warm", "???", "Yay", "Sumr", "Sum2", "Sol", "Bdy", "Hlw", "NSN", "Cst"} ;
+const char * ampm[] = {"MO", "EV"} ;
 
-const char hostname[] = "query.yahooapis.com";
-const String url = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; //put the link to Yahoo Weather API here
+//const char hostname[] = "query.yahooapis.com";
+//const String url = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; //put the link to Yahoo Weather API here
 const int port = 80;
 
 unsigned long timeout = 10000; //ms
@@ -114,10 +111,10 @@ void setup ()
 
   
   Serial.println("");
-  display.drawString(0, 0, "Connected to WiFi.");
+  display.drawString(0, 0, "Connected to Intorwebs.");
   Serial.print(WiFi.localIP());
   Serial.println("");
-  display.drawString(0, 24, "Hi Shyam!");
+  display.drawString(0, 24, "Hi Mike! ");
   display.display();
   delay(1000);
 }
@@ -126,8 +123,7 @@ void loop()
 {
   int buttonState = digitalRead(DataDisplayButton);
   if (buttonState == LOW) {
-    Serial.print("Button pressed");
-    GetWeatherData();
+    Serial.print("Unfortunately yahoo bad.");
     tellTime();
     delay(6000);
   }
@@ -157,7 +153,7 @@ void ControlRelays(){
     if(Relay1State == HIGH){
     display.setFont(ArialMT_Plain_16);
     display.drawString(18, 30, "ON");
-    }
+    } 
     else if(Relay1State == LOW){
     display.setFont(ArialMT_Plain_16);
     display.drawString(15, 30, "OFF");
@@ -238,9 +234,9 @@ void tellTime() {
     utc = epochTime;
 
     // Then convert the UTC UNIX timestamp to local time
-    TimeChangeRule usEDT = {"EDT", Second, Sun, Mar, 2, +150};  //UTC - 5 hours - change this as needed
-    TimeChangeRule usEST = {"EST", First, Sun, Nov, 2, +150};   //UTC - 6 hours - change this as needed
-    Timezone usEastern(usEDT, usEST);
+    TimeChangeRule usPDT = {"PST", Second, Sun, Mar, 2, -180};  //UTC - 5 hours - change this as needed
+    TimeChangeRule usPDT = {"PST", First, Sun, Nov, 2, -180};   //UTC - 6 hours - change this as needed
+    Timezone usEastern(usPST, usPST);
     local = usEastern.toLocal(utc);
 
     // now format the Time variables into strings with proper names for month, day etc
@@ -276,11 +272,11 @@ void tellTime() {
     display.drawStringMaxWidth(64, 14, 128, t); // print time on the display
     display.setFont(ArialMT_Plain_10);
     display.drawStringMaxWidth(64, 42, 128, date); // print date on the display
-    
-    display.drawString(70, 0, "Temp:"); // prints the Temperature from GetWeatherData() function
-    display.drawString(100, 0, tempC);  // Replace with "temp" to get temperaute in Farenheit
-    display.drawString(113, 0, "C");
-    display.display();
+    //>:( yahooooooooo!
+    //display.drawString(70, 0, "Temp:"); // prints the Temperature from GetWeatherData() function
+    //display.drawString(100, 0, tempC);  // Replace with "temp" to get temperaute in Farenheit
+    //display.drawString(113, 0, "C");
+    //isplay.display();
   }
   else // attempt to connect to wifi again if disconnected
   {
@@ -292,7 +288,7 @@ void tellTime() {
     display.display();
   }
 }
-  void GetWeatherData(){
+  /*void GetWeatherData(){
   
   unsigned long timestamp;
   int temp;
@@ -336,5 +332,6 @@ void tellTime() {
   Serial.println();
   Serial.println("Connection closed");
   }
+*/
 
 
