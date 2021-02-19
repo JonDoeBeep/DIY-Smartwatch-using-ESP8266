@@ -59,7 +59,7 @@ char auth[] = "XXXXXXXXXXXXXXXXXXXXXXXXXXX"; //Enter your Authentication Token
 // Define NTP properties
 #define NTP_OFFSET   60 * 60      // In seconds
 #define NTP_INTERVAL 60 * 1000    // In miliseconds
-#define NTP_ADDRESS  "ir.pool.ntp.org"  // change this to whatever pool is closest (see ntp.org)
+#define NTP_ADDRESS  "pool.ntp.org" 
 
 // Set up the NTP UDP client
 WiFiUDP ntpUDP;
@@ -68,7 +68,7 @@ NTPClient timeClient(ntpUDP, NTP_ADDRESS, NTP_OFFSET, NTP_INTERVAL);
 // Create a display object
 SSD1306  display(0x3C, 4, 5); //0x3d for the Adafruit 1.3" OLED, 0x3C being the usual address of the OLED
 
-const char* ssid = "new5";   // insert your own ssid
+const char* ssid = "new5";   // insert ssid
 const char* password = "Rickson83";              // and password
 String date;
 String t;
@@ -78,7 +78,7 @@ const char * months[] = {"Cold", "Eh.", "Warm", "???", "Yay", "Sumr", "Sum2", "S
 const char * ampm[] = {"MO", "EV"} ;
 
 //const char hostname[] = "query.yahooapis.com";
-//const String url = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; //put the link to Yahoo Weather API here
+//const String url = "no >:("; //put the link to Yahoo Weather API here
 const int port = 80;
 
 unsigned long timeout = 10000; //ms
@@ -92,7 +92,7 @@ WidgetBridge bridge1(V1);  // Connect the Relay module
 
 BLYNK_CONNECTED() {
   // Place the AuthToken of the second hardware here
-  bridge1.setAuthToken("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"); // Enter the Auth token of the relay module(Other Esp8266 Module);
+  bridge1.setAuthToken(""); // Enter the Auth token of the relay module(Other Esp8266 Module);
 }
 
 void setup ()
@@ -234,10 +234,10 @@ void tellTime() {
     utc = epochTime;
 
     // Then convert the UTC UNIX timestamp to local time
-    TimeChangeRule usPDT = {"PST", Second, Sun, Mar, 2, -180};  //UTC - 5 hours - change this as needed
-    TimeChangeRule usPDT = {"PST", First, Sun, Nov, 2, -180};   //UTC - 6 hours - change this as needed
-    Timezone usEastern(usPST, usPST);
-    local = usEastern.toLocal(utc);
+    TimeChangeRule usPST = {"PST", Second, Sun, Mar, 2, -180};  //UTC - 5 hours - change this as needed
+    TimeChangeRule usPDT = {"PDT", First, Sun, Nov, 2, -190};   //UTC - 6 hours - change this as needed
+    Timezone usPacific(usPST, usPDT);
+    local = usPacific.toLocal(utc);
 
     // now format the Time variables into strings with proper names for month, day etc
     date += days[weekday(local) - 1];
